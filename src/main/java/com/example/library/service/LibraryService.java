@@ -32,4 +32,16 @@ public class LibraryService {
         bookList.add(book);
         return getById(book.getId());
     }
+
+    public Boolean updateBook(Book book, int id) {
+        if (book.getId() == id && getById(id) != null) {
+            bookList.stream().filter(b -> b.getId() == id).forEach(b -> {
+                b.setName(book.getName());
+                b.setAuthor(book.getAuthor());
+                b.setGenre(book.getGenre());
+            });
+            return true;
+        }
+        return false;
+    }
 }
