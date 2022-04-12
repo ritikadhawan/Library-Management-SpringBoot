@@ -26,7 +26,7 @@ class LibraryServiceTest {
     @Test
     void shouldReturnBookById() {
         Book book = new Book(1, "learn spring boot", "john doe", "programming book");
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 
         LibraryService libraryService = new LibraryService(bookList);
@@ -45,9 +45,9 @@ class LibraryServiceTest {
     }
 
     @Test
-    void shouldUpdateBookById() {
+    void shouldUpdateBookByIdIfAlreadyPresent() {
         Book book = new Book(1, "learn spring boot", "john doe", "programming book");
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 
         LibraryService libraryService = new LibraryService(bookList);
@@ -59,9 +59,9 @@ class LibraryServiceTest {
     }
 
     @Test
-    void shouldDeleteBookById() {
+    void shouldDeleteBookByIdIfAlreadyPresent() {
         Book book = new Book(1, "learn spring boot", "john doe", "programming book");
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 
         LibraryService libraryService = new LibraryService(bookList);

@@ -25,17 +25,17 @@ public class LibraryController {
         return new ResponseEntity<List<Book>>(libraryService.getAllBooks(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> getById(@RequestParam int id) {
         return new ResponseEntity<Book>(libraryService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         return new ResponseEntity<Book>(libraryService.addBook(book), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateBook(@RequestBody Book book, @RequestParam int id) {
         if (libraryService.updateBook(book, id)) {
             return new ResponseEntity<Authenticator.Success>(HttpStatus.ACCEPTED);
@@ -44,7 +44,7 @@ public class LibraryController {
         }
     }
 
-    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteBook(@RequestParam int id) {
         if (libraryService.deleteById(id)) {
             return new ResponseEntity<Authenticator.Success>(HttpStatus.NO_CONTENT);

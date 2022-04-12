@@ -74,7 +74,7 @@ public class LibraryControllerTest {
     }
 
     @Test
-    void shouldUpdateBookById() throws Exception {
+    void shouldUpdateBookByIdIfAlreadyPresent() throws Exception {
 
         Book book = new Book(1, "learn spring boot", "john doe", "programming book");
 
@@ -87,7 +87,7 @@ public class LibraryControllerTest {
     }
 
     @Test
-    void shouldDeleteBookById() throws Exception {
+    void shouldDeleteBookByIdIfAlreadyPresent() throws Exception {
 
         when(libraryService.deleteById(anyInt())).thenReturn(true);
 
