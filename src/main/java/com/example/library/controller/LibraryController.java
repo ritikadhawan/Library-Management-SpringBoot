@@ -44,4 +44,13 @@ public class LibraryController {
         }
     }
 
+    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteBook(@RequestParam int id) {
+        if (libraryService.deleteById(id)) {
+            return new ResponseEntity<Authenticator.Success>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<Authenticator.Failure>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

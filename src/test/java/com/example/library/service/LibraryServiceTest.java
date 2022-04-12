@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 class LibraryServiceTest {
     @Test
@@ -57,5 +56,19 @@ class LibraryServiceTest {
         libraryService.updateBook(updatedBook, book.getId());
 
         assertThat(libraryService.getById(book.getId()), is(equalTo(updatedBook)));
+    }
+
+    @Test
+    void shouldDeleteBookById() {
+        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        List<Book> bookList = new ArrayList<Book>();
+        bookList.add(book);
+
+        LibraryService libraryService = new LibraryService(bookList);
+
+        libraryService.deleteById(book.getId());
+
+        assertThat(libraryService.getById(book.getId()), is(nullValue()));
+
     }
 }

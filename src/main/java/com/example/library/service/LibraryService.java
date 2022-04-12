@@ -44,4 +44,13 @@ public class LibraryService {
         }
         return false;
     }
+
+    public Boolean deleteById(int id) {
+        if (getById(id) != null) {
+            bookList.removeIf(book -> book.getId() == id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

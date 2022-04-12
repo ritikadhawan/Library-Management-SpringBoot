@@ -85,4 +85,15 @@ public class LibraryControllerTest {
         mockMvc.perform(builders).andExpect(status().isAccepted());
         verify(libraryService, times(1)).updateBook(any(Book.class), anyInt());
     }
+
+    @Test
+    void shouldDeleteBookById() throws Exception {
+
+        when(libraryService.deleteById(anyInt())).thenReturn(true);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=1").contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(builders).andExpect(status().isNoContent());
+        verify(libraryService, times(1)).deleteById(anyInt());
+    }
 }
