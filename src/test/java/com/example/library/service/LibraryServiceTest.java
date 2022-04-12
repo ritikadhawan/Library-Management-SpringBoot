@@ -13,11 +13,15 @@ import static org.hamcrest.Matchers.is;
 class LibraryServiceTest {
     @Test
     void shouldReturnAllBooks() {
-        LibraryService libraryService = new LibraryService();
+        List<Book> bookList = new ArrayList<>();
+        bookList.add(new Book(1, "learn spring boot", "john doe", "programming book"));
+        bookList.add(new Book(2, "learn java", "jane doe", "programming book"));
 
-        List<Book> bookList = libraryService.getAllBooks();
+        LibraryService libraryService = new LibraryService(bookList);
 
-        assertThat(((List<?>) bookList).isEmpty(), is(equalTo(true)));
+        List<Book> allBooks = libraryService.getAllBooks();
+
+        assertThat(allBooks, is(equalTo(bookList)));
     }
 
     @Test

@@ -24,7 +24,7 @@ public class LibraryService {
     }
 
     public Book getById(int id) {
-        Optional<Book> book= bookList.stream().filter(b -> b.getId() == id).findFirst();
+        Optional<Book> book = bookList.stream().filter(b -> b.getId() == id).findFirst();
         return book.orElse(null);
     }
 
