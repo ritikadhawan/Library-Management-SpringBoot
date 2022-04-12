@@ -30,4 +30,14 @@ class LibraryServiceTest {
 
         assertThat(libraryService.getById(1), is(equalTo(book)));
     }
+
+    @Test
+    void shouldAddBook() {
+        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        LibraryService libraryService = new LibraryService();
+
+        Book bookAdded = libraryService.addBook(book);
+
+        assertThat(bookAdded, is(equalTo(book)));
+    }
 }

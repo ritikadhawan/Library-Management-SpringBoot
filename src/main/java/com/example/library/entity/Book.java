@@ -1,11 +1,14 @@
 package com.example.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Book {
     private int id;
     private final String name;
     private final String author;
     private final String genre;
 
+    @JsonCreator
     public Book(int id, String name, String author, String genre) {
         this.id = id;
         this.name = name;

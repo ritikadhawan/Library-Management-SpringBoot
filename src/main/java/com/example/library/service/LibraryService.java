@@ -28,4 +28,8 @@ public class LibraryService {
         return book.orElse(null);
     }
 
+    public Book addBook(Book book) {
+        bookList.add(book);
+        return getById(book.getId());
+    }
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,6 +57,19 @@ public class LibraryControllerTest {
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=1").contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builders).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().string(this.mapper.writeValueAsString(book)));
+
+    }
+
+    @Test
+    void shouldAddBook() throws Exception {
+
+        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+
+        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.content().string(this.mapper.writeValueAsString(book)));
 
     }
 }
