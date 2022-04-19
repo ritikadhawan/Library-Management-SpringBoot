@@ -3,33 +3,24 @@ package com.example.library.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Book {
-    private int id;
+    private final String id;
     private String name;
     private String author;
     private String genre;
 
     @JsonCreator
-    public Book(int id, String name, String author, String genre) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-        this.genre = genre;
-    }
-
     public Book(String name, String author, String genre) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.author = author;
         this.genre = genre;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -67,12 +58,12 @@ public class Book {
         }
         Book anotherBook = (Book) obj;
 
-        return id == anotherBook.id && name.equals(anotherBook.name) && author.equals(anotherBook.author) && genre.equals(anotherBook.genre);
+        return name.equals(anotherBook.name) && author.equals(anotherBook.author) && genre.equals(anotherBook.genre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, genre);
+        return Objects.hash(name, author, genre);
     }
 
 }

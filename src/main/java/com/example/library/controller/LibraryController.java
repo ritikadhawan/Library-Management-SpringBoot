@@ -26,7 +26,7 @@ public class LibraryController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> getById(@RequestParam int id) {
+    public ResponseEntity<Book> getById(@RequestParam String id) {
         return new ResponseEntity<Book>(libraryService.getById(id), HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class LibraryController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateBook(@RequestBody Book book, @RequestParam int id) {
+    public ResponseEntity<?> updateBook(@RequestBody Book book, @RequestParam String id) {
         if (libraryService.updateBook(book, id)) {
             return new ResponseEntity<Authenticator.Success>(HttpStatus.ACCEPTED);
         } else {
@@ -45,7 +45,7 @@ public class LibraryController {
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteBook(@RequestParam int id) {
+    public ResponseEntity<?> deleteBook(@RequestParam String id) {
         if (libraryService.deleteById(id)) {
             return new ResponseEntity<Authenticator.Success>(HttpStatus.NO_CONTENT);
         } else {

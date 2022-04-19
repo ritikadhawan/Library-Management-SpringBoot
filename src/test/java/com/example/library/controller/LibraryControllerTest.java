@@ -38,8 +38,8 @@ public class LibraryControllerTest {
     void shouldReturnAllBooks() throws Exception {
 
         List<Book> bookList = new ArrayList<>();
-        bookList.add(new Book(1, "learn spring boot", "john doe", "programming book"));
-        bookList.add(new Book(2, "learn java", "jane doe", "programming book"));
+        bookList.add(new Book("learn spring boot", "john doe", "programming book"));
+        bookList.add(new Book("learn java", "jane doe", "programming book"));
 
         when(libraryService.getAllBooks()).thenReturn(bookList);
 
@@ -50,11 +50,11 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnBookById() throws Exception {
 
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
 
-        when(libraryService.getById(1)).thenReturn(book);
+        when(libraryService.getById(book.getId())).thenReturn(book);
 
-        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=1").contentType(MediaType.APPLICATION_JSON);
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builders).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().string(this.mapper.writeValueAsString(book)));
 
@@ -63,7 +63,7 @@ public class LibraryControllerTest {
     @Test
     void shouldAddBook() throws Exception {
 
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -75,25 +75,24 @@ public class LibraryControllerTest {
 
     @Test
     void shouldUpdateBookByIdIfAlreadyPresent() throws Exception {
+        Book book = new Book("learn spring boot", "john doe", "programming book");
 
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        when(libraryService.updateBook(any(Book.class), anyString())).thenReturn(true);
 
-        when(libraryService.updateBook(any(Book.class), anyInt())).thenReturn(true);
-
-        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
         mockMvc.perform(builders).andExpect(status().isAccepted());
-        verify(libraryService, times(1)).updateBook(any(Book.class), anyInt());
+        verify(libraryService, times(1)).updateBook(any(Book.class), anyString());
     }
 
     @Test
     void shouldDeleteBookByIdIfAlreadyPresent() throws Exception {
 
-        when(libraryService.deleteById(anyInt())).thenReturn(true);
+        when(libraryService.deleteById(anyString())).thenReturn(true);
 
-        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=1").contentType(MediaType.APPLICATION_JSON);
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=abc123").contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builders).andExpect(status().isNoContent());
-        verify(libraryService, times(1)).deleteById(anyInt());
+        verify(libraryService, times(1)).deleteById(anyString());
     }
 }

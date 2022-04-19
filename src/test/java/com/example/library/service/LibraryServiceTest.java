@@ -13,8 +13,8 @@ class LibraryServiceTest {
     @Test
     void shouldReturnAllBooks() {
         List<Book> bookList = new ArrayList<>();
-        bookList.add(new Book(1, "learn spring boot", "john doe", "programming book"));
-        bookList.add(new Book(2, "learn java", "jane doe", "programming book"));
+        bookList.add(new Book("learn spring boot", "john doe", "programming book"));
+        bookList.add(new Book("learn java", "jane doe", "programming book"));
 
         LibraryService libraryService = new LibraryService(bookList);
 
@@ -25,18 +25,18 @@ class LibraryServiceTest {
 
     @Test
     void shouldReturnBookById() {
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
         List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 
         LibraryService libraryService = new LibraryService(bookList);
 
-        assertThat(libraryService.getById(1), is(equalTo(book)));
+        assertThat(libraryService.getById(book.getId()), is(equalTo(book)));
     }
 
     @Test
     void shouldAddBook() {
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
         LibraryService libraryService = new LibraryService();
 
         Book bookAdded = libraryService.addBook(book);
@@ -46,13 +46,13 @@ class LibraryServiceTest {
 
     @Test
     void shouldUpdateBookByIdIfAlreadyPresent() {
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
         List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 
         LibraryService libraryService = new LibraryService(bookList);
 
-        Book updatedBook = new Book(book.getId(), "hello java", "jane doe", "programming book");
+        Book updatedBook = new Book("hello java", "jane doe", "programming book");
         libraryService.updateBook(updatedBook, book.getId());
 
         assertThat(libraryService.getById(book.getId()), is(equalTo(updatedBook)));
@@ -60,7 +60,7 @@ class LibraryServiceTest {
 
     @Test
     void shouldDeleteBookByIdIfAlreadyPresent() {
-        Book book = new Book(1, "learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book");
         List<Book> bookList = new ArrayList<>();
         bookList.add(book);
 

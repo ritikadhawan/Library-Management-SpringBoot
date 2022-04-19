@@ -23,8 +23,8 @@ public class LibraryService {
         return bookList;
     }
 
-    public Book getById(int id) {
-        Optional<Book> book = bookList.stream().filter(b -> b.getId() == id).findFirst();
+    public Book getById(String id) {
+        Optional<Book> book = bookList.stream().filter(b -> b.getId().equals(id)).findFirst();
         return book.orElse(null);
     }
 
@@ -33,9 +33,9 @@ public class LibraryService {
         return getById(book.getId());
     }
 
-    public Boolean updateBook(Book book, int id) {
-        if (book.getId() == id && getById(id) != null) {
-            bookList.stream().filter(b -> b.getId() == id).forEach(b -> {
+    public Boolean updateBook(Book book, String id) {
+        if (getById(id) != null) {
+            bookList.stream().filter(b -> b.getId().equals(id)).forEach(b -> {
                 b.setName(book.getName());
                 b.setAuthor(book.getAuthor());
                 b.setGenre(book.getGenre());
@@ -45,9 +45,9 @@ public class LibraryService {
         return false;
     }
 
-    public Boolean deleteById(int id) {
+    public Boolean deleteById(String id) {
         if (getById(id) != null) {
-            bookList.removeIf(book -> book.getId() == id);
+            bookList.removeIf(b -> b.getId().equals(id));
             return true;
         } else {
             return false;
