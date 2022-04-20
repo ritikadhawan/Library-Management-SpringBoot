@@ -20,6 +20,8 @@ public class Book {
 
     @NotEmptyOrNull(message = "author is required")
     private String author;
+
+    @NotEmptyOrNull(message = "genre is required")
     private String genre;
 
 
