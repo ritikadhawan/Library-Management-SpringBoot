@@ -1,6 +1,7 @@
 package com.example.library.entity;
 
 import com.example.library.validator.NotEmptyOrNull;
+import com.example.library.validator.NotFutureDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ public class Book {
     private final String id;
 
     @NotEmptyOrNull(message = "published on is required")
+    @NotFutureDate(message = "published on date should not be in the future")
     private Date publishedOn;
 
     @NotEmptyOrNull(message = "name is required")
