@@ -17,7 +17,7 @@ public class Book {
     private Date publishedOn;
 
     @NotEmptyOrNull(message = "name is required")
-    @Size(max = 50, message = "name should be less than {max} characters")
+    @Size(max = 50, min = 3, message = "name should be more than {min} characters and less than {max}")
     private String name;
 
     @NotEmptyOrNull(message = "author is required")
