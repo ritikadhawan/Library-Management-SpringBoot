@@ -25,7 +25,7 @@ public class Book {
     private String author;
 
     @NotEmptyOrNull(message = "genre is required")
-    @Size(max = 500, message = "author should be less than equal to {max} characters")
+    @Size(max = 500, min = 3, message = "genre should be more than equal to {min} characters and less than equal to {max}")
     private String genre;
 
 
