@@ -96,4 +96,15 @@ public class LibraryControllerTest {
         mockMvc.perform(builders).andExpect(status().isNoContent());
         verify(libraryService, times(1)).deleteById(anyString());
     }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenNameOfBookIsEmpty() throws Exception {
+        Book book = new Book("", "john doe", "programming book", new Date());
+
+        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
 }
