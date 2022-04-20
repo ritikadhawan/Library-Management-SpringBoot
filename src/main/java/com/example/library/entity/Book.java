@@ -13,6 +13,8 @@ public class Book {
 
     @NotEmpty(message = "name is required")
     private String name;
+
+    @NotEmpty(message = "author is required")
     private String author;
     private String genre;
 
