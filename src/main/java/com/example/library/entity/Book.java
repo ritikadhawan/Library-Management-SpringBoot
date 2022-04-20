@@ -4,6 +4,7 @@ import com.example.library.validator.NotEmptyOrNull;
 import com.example.library.validator.NotFutureDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,11 +17,11 @@ public class Book {
     private Date publishedOn;
 
     @NotEmptyOrNull(message = "name is required")
+    @Size(max = 50, message = "name should be less than {max} characters")
     private String name;
 
     @NotEmptyOrNull(message = "author is required")
     private String author;
-
     @NotEmptyOrNull(message = "genre is required")
     private String genre;
 

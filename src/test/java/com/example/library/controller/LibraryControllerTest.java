@@ -3,6 +3,7 @@ package com.example.library.controller;
 import com.example.library.entity.Book;
 import com.example.library.service.LibraryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -146,6 +147,18 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenGenreIsEmpty() throws Exception {
         Book book = new Book("introduction to java", "jane", "", new Date());
+
+        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenNameIsMoreThan50Characters() throws Exception {
+        String name = RandomStringUtils.randomAlphabetic(51);
+        Book book = new Book(name, "jane", "programming", new Date());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
