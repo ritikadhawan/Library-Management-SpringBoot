@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -38,8 +39,8 @@ public class LibraryControllerTest {
     void shouldReturnAllBooks() throws Exception {
 
         List<Book> bookList = new ArrayList<>();
-        bookList.add(new Book("learn spring boot", "john doe", "programming book"));
-        bookList.add(new Book("learn java", "jane doe", "programming book"));
+        bookList.add(new Book("learn spring boot", "john doe", "programming book", new Date()));
+        bookList.add(new Book("learn java", "jane doe", "programming book", new Date()));
 
         when(libraryService.getAllBooks()).thenReturn(bookList);
 
@@ -50,7 +51,7 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnBookById() throws Exception {
 
-        Book book = new Book("learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
 
         when(libraryService.getById(book.getId())).thenReturn(book);
 
@@ -63,7 +64,7 @@ public class LibraryControllerTest {
     @Test
     void shouldAddBook() throws Exception {
 
-        Book book = new Book("learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -75,7 +76,7 @@ public class LibraryControllerTest {
 
     @Test
     void shouldUpdateBookByIdIfAlreadyPresent() throws Exception {
-        Book book = new Book("learn spring boot", "john doe", "programming book");
+        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
 
         when(libraryService.updateBook(any(Book.class), anyString())).thenReturn(true);
 

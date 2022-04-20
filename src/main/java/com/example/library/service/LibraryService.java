@@ -39,6 +39,7 @@ public class LibraryService {
                 b.setName(book.getName());
                 b.setAuthor(book.getAuthor());
                 b.setGenre(book.getGenre());
+                b.setPublishedOn(book.getPublishedOn());
             });
             return true;
         }

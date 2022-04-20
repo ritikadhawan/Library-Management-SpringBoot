@@ -2,21 +2,25 @@ package com.example.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
     private final String id;
+    private Date publishedOn;
     private String name;
     private String author;
     private String genre;
 
+
     @JsonCreator
-    public Book(String name, String author, String genre) {
+    public Book(String name, String author, String genre, Date publishedOn) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.author = author;
         this.genre = genre;
+        this.publishedOn = publishedOn;
     }
 
     public String getId() {
@@ -47,6 +51,13 @@ public class Book {
         this.genre = genre;
     }
 
+    public Date getPublishedOn() {
+        return publishedOn;
+    }
+
+    public void setPublishedOn(Date publishedOn) {
+        this.publishedOn = publishedOn;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -58,12 +69,12 @@ public class Book {
         }
         Book anotherBook = (Book) obj;
 
-        return name.equals(anotherBook.name) && author.equals(anotherBook.author) && genre.equals(anotherBook.genre);
+        return name.equals(anotherBook.name) && author.equals(anotherBook.author) && genre.equals(anotherBook.genre) && publishedOn.equals(anotherBook.publishedOn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, author, genre);
+        return Objects.hash(name, author, genre, publishedOn);
     }
 
 }
