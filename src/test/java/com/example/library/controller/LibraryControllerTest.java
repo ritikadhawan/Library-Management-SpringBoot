@@ -190,4 +190,16 @@ public class LibraryControllerTest {
 
         mockMvc.perform(builders).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenAuthorIsLessThan3Characters() throws Exception {
+        String author = RandomStringUtils.randomAlphabetic(2);
+        Book book = new Book("introduction to java", author, "programming", new Date());
+
+        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
 }
