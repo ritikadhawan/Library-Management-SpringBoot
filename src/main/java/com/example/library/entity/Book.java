@@ -1,6 +1,6 @@
 package com.example.library.entity;
 
-import com.example.library.validator.NotEmpty;
+import com.example.library.validator.NotEmptyOrNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Date;
@@ -11,10 +11,10 @@ public class Book {
     private final String id;
     private Date publishedOn;
 
-    @NotEmpty(message = "name is required")
+    @NotEmptyOrNull(message = "name is required")
     private String name;
 
-    @NotEmpty(message = "author is required")
+    @NotEmptyOrNull(message = "author is required")
     private String author;
     private String genre;
 

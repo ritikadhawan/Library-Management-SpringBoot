@@ -11,12 +11,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = NotEmptyValidator.class)
+@Constraint(validatedBy = NotEmptyOrNullValidator.class)
 @Documented
-public @interface NotEmpty {
+public @interface NotEmptyOrNull {
     String message() default "{}";
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }
