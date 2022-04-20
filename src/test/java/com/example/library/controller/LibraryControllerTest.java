@@ -118,4 +118,16 @@ public class LibraryControllerTest {
 
         mockMvc.perform(builders).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenPublishedAtOfBookIsNull() throws Exception {
+
+        Book book = new Book("introduction to java", "jane doe", "", null);
+
+        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
 }

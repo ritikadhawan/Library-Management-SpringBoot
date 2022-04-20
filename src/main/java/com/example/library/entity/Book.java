@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public class Book {
     private final String id;
+
+    @NotEmptyOrNull(message = "published on is required")
     private Date publishedOn;
 
     @NotEmptyOrNull(message = "name is required")
