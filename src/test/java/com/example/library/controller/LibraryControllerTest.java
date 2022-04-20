@@ -122,7 +122,7 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenPublishedAtOfBookIsNull() throws Exception {
 
-        Book book = new Book("introduction to java", "jane doe", "", null);
+        Book book = new Book("introduction to java", "jane doe", "programming", null);
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
