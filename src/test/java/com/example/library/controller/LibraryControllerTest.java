@@ -253,4 +253,15 @@ public class LibraryControllerTest {
 
         mockMvc.perform(builders).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnStatusBadRequestForGetBookByIdWhenBookIsNotPresent() throws Exception {
+
+        UUID id = UUID.randomUUID();
+        when(libraryService.getById(anyString())).thenReturn(null);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
 }

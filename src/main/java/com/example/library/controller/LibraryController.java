@@ -29,7 +29,13 @@ public class LibraryController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> getById(@RequestParam String id) {
-        return new ResponseEntity<Book>(libraryService.getById(id), HttpStatus.OK);
+
+        Book book = libraryService.getById(id);
+
+        if (book == null) {
+            throw new NoRecordFoundException("book not found");
+        }
+        return new ResponseEntity<Book>(book, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
