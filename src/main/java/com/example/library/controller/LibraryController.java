@@ -1,6 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.entity.Book;
+import com.example.library.exception.NoRecordFoundException;
 import com.example.library.service.LibraryService;
 import com.sun.net.httpserver.Authenticator;
 import org.springframework.http.HttpStatus;
@@ -37,12 +38,12 @@ public class LibraryController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateBook(@RequestBody Book book, @RequestParam String id) {
-        if (libraryService.updateBook(book, id)) {
-            return new ResponseEntity<Authenticator.Success>(HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<Authenticator.Failure>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updateBook(@Valid @RequestBody Book book, @RequestParam String id) {
+        if(libraryService.getById(id) == null) {
+            throw new NoRecordFoundException("book not found");
         }
+        libraryService.updateBook(book, id);
+        return new ResponseEntity<Authenticator.Success>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)

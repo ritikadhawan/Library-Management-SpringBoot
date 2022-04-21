@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -79,7 +80,7 @@ public class LibraryControllerTest {
     void shouldUpdateBookByIdIfAlreadyPresent() throws Exception {
         Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
 
-        when(libraryService.updateBook(any(Book.class), anyString())).thenReturn(true);
+        when(libraryService.getById(anyString())).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -223,6 +224,18 @@ public class LibraryControllerTest {
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenBookToBeUpdatedIsNotPresent() throws Exception {
+        Book book = new Book("introduction to java", "jane doe", "programming", new Date());
+        UUID id = UUID.randomUUID();
+
+        when(libraryService.getById(anyString())).thenReturn(null);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
         mockMvc.perform(builders).andExpect(status().isBadRequest());
     }
