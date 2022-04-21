@@ -48,11 +48,11 @@ public class LibraryController {
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteBook(@RequestParam String id) {
-        if (libraryService.deleteById(id)) {
-            return new ResponseEntity<Authenticator.Success>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<Authenticator.Failure>(HttpStatus.NOT_FOUND);
+        if(libraryService.getById(id) == null) {
+            throw new NoRecordFoundException("book not found");
         }
+        libraryService.deleteById(id);
+        return new ResponseEntity<Authenticator.Success>(HttpStatus.NO_CONTENT);
     }
 
 }

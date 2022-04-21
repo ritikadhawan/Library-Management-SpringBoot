@@ -91,9 +91,12 @@ public class LibraryControllerTest {
     @Test
     void shouldDeleteBookByIdIfAlreadyPresent() throws Exception {
 
-        when(libraryService.deleteById(anyString())).thenReturn(true);
+        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
 
-        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=abc123").contentType(MediaType.APPLICATION_JSON);
+        when(libraryService.getById(anyString())).thenReturn(book);;
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id="
+        + book.getId()).contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builders).andExpect(status().isNoContent());
         verify(libraryService, times(1)).deleteById(anyString());
@@ -236,6 +239,17 @@ public class LibraryControllerTest {
         when(libraryService.getById(anyString())).thenReturn(null);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
+
+        mockMvc.perform(builders).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestWhenBookToBeDeletedIsNotPresent() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        when(libraryService.getById(anyString())).thenReturn(null);
+
+        MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builders).andExpect(status().isBadRequest());
     }
