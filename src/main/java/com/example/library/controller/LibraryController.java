@@ -45,7 +45,7 @@ public class LibraryController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateBook(@Valid @RequestBody Book book, @RequestParam String id) {
-        if(libraryService.getById(id) == null) {
+        if (libraryService.getById(id) == null) {
             throw new NoRecordFoundException("book not found");
         }
         libraryService.updateBook(book, id);
@@ -54,7 +54,7 @@ public class LibraryController {
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteBook(@RequestParam String id) {
-        if(libraryService.getById(id) == null) {
+        if (libraryService.getById(id) == null) {
             throw new NoRecordFoundException("book not found");
         }
         libraryService.deleteById(id);
