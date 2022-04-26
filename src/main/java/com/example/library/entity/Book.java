@@ -3,14 +3,24 @@ package com.example.library.entity;
 import com.example.library.validator.NotEmptyOrNull;
 import com.example.library.validator.NotFutureDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
+@Entity
+@Table
 public class Book {
-    private final String id;
+
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @NotEmptyOrNull(message = "published on is required")
     @NotFutureDate(message = "published on date should not be in the future")
@@ -28,10 +38,11 @@ public class Book {
     @Size(max = 500, min = 3, message = "genre should be more than equal to {min} characters and less than equal to {max}")
     private String genre;
 
+    public Book () {
 
+    }
     @JsonCreator
     public Book(String name, String author, String genre, Date publishedOn) {
-        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.author = author;
         this.genre = genre;
@@ -72,6 +83,10 @@ public class Book {
 
     public void setPublishedOn(Date publishedOn) {
         this.publishedOn = publishedOn;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

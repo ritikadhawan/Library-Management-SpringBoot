@@ -4,6 +4,7 @@ import com.example.library.entity.Book;
 import com.example.library.exception.NoRecordFoundException;
 import com.example.library.service.LibraryService;
 import com.sun.net.httpserver.Authenticator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,6 +20,7 @@ public class LibraryController {
 
     private final LibraryService libraryService;
 
+    @Autowired
     public LibraryController(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
@@ -30,12 +33,12 @@ public class LibraryController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> getById(@RequestParam String id) {
 
-        Book book = libraryService.getById(id);
+        Optional<Book> book = libraryService.getById(id);
 
-        if (book == null) {
+        if (book.isEmpty()) {
             throw new NoRecordFoundException("book not found");
         }
-        return new ResponseEntity<Book>(book, HttpStatus.OK);
+        return new ResponseEntity<Book>(book.get(), HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +48,7 @@ public class LibraryController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateBook(@Valid @RequestBody Book book, @RequestParam String id) {
-        if (libraryService.getById(id) == null) {
+        if (libraryService.getById(id).isEmpty()) {
             throw new NoRecordFoundException("book not found");
         }
         libraryService.updateBook(book, id);
@@ -54,7 +57,7 @@ public class LibraryController {
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteBook(@RequestParam String id) {
-        if (libraryService.getById(id) == null) {
+        if (libraryService.getById(id).isEmpty()) {
             throw new NoRecordFoundException("book not found");
         }
         libraryService.deleteById(id);

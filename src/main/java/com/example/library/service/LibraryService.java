@@ -1,57 +1,54 @@
 package com.example.library.service;
 
+import com.example.library.database.BookRepository;
 import com.example.library.entity.Book;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class LibraryService {
-    private final List<Book> bookList;
 
-    public LibraryService() {
-        bookList = new ArrayList<>();
-    }
+    private BookRepository bookRepository;
 
-    public LibraryService(List<Book> bookList) {
-        this.bookList = bookList;
+    @Autowired
+    public LibraryService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getAllBooks() {
-        return bookList;
+        return bookRepository.findAll();
     }
 
-    public Book getById(String id) {
-        Optional<Book> book = bookList.stream().filter(b -> b.getId().equals(id)).findFirst();
-        return book.orElse(null);
+    public Optional<Book> getById(String id) {
+        return bookRepository.findById(id);
     }
 
     public Book addBook(Book book) {
-        bookList.add(book);
-        return getById(book.getId());
+        bookRepository.save(book);
+        Optional<Book> bookFound = bookRepository.findById(book.getId());
+        return bookFound.orElse(null);
     }
 
-    public Boolean updateBook(Book book, String id) {
-        if (getById(id) != null) {
-            bookList.stream().filter(b -> b.getId().equals(id)).forEach(b -> {
-                b.setName(book.getName());
-                b.setAuthor(book.getAuthor());
-                b.setGenre(book.getGenre());
-                b.setPublishedOn(book.getPublishedOn());
-            });
-            return true;
+    public void updateBook(Book book, String id) {
+
+        Optional<Book> currBook = bookRepository.findById(id);
+        if (currBook.isEmpty()) {
+            return;
         }
-        return false;
+
+        currBook.map(b -> {
+            b.setName(book.getName());
+            b.setAuthor(book.getAuthor());
+            b.setGenre(book.getGenre());
+            b.setPublishedOn(book.getPublishedOn());
+            return bookRepository.save(b);
+        });
     }
 
-    public Boolean deleteById(String id) {
-        if (getById(id) != null) {
-            bookList.removeIf(b -> b.getId().equals(id));
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteById(String id) {
+        bookRepository.deleteById(id);
     }
 }

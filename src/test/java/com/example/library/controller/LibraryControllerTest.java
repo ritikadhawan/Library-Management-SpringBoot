@@ -5,19 +5,19 @@ import com.example.library.service.LibraryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,8 +25,10 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(LibraryController.class)
-public class LibraryControllerTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+class LibraryControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -54,8 +56,9 @@ public class LibraryControllerTest {
     void shouldReturnBookById() throws Exception {
 
         Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.getById(book.getId())).thenReturn(book);
+        when(libraryService.getById(book.getId())).thenReturn(Optional.of(book));
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON);
 
@@ -67,6 +70,7 @@ public class LibraryControllerTest {
     void shouldAddBook() throws Exception {
 
         Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -79,8 +83,9 @@ public class LibraryControllerTest {
     @Test
     void shouldUpdateBookByIdIfAlreadyPresent() throws Exception {
         Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.getById(anyString())).thenReturn(book);
+        when(libraryService.getById(anyString())).thenReturn(Optional.of(book));
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -92,8 +97,9 @@ public class LibraryControllerTest {
     void shouldDeleteBookByIdIfAlreadyPresent() throws Exception {
 
         Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.getById(anyString())).thenReturn(book);;
+        when(libraryService.getById(anyString())).thenReturn(Optional.of(book));
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id="
         + book.getId()).contentType(MediaType.APPLICATION_JSON);
@@ -105,6 +111,7 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenNameOfBookIsEmpty() throws Exception {
         Book book = new Book("", "john doe", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -116,6 +123,7 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenAuthorOfBookIsEmpty() throws Exception {
         Book book = new Book("introduction to java", "", "programming book", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -128,6 +136,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenPublishedAtOfBookIsNull() throws Exception {
 
         Book book = new Book("introduction to java", "jane doe", "programming", null);
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -140,6 +149,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenPublishedOnOfBookIsTheFutureDate() throws Exception {
 
         Book book = new Book("introduction to java", "jane doe", "", new Date(2024, 4, 21));
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -151,6 +161,7 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenGenreIsEmpty() throws Exception {
         Book book = new Book("introduction to java", "jane", "", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -163,6 +174,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenNameIsMoreThan50Characters() throws Exception {
         String name = RandomStringUtils.randomAlphabetic(51);
         Book book = new Book(name, "jane", "programming", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -175,6 +187,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenNameIsLessThan3Characters() throws Exception {
         String name = RandomStringUtils.randomAlphabetic(2);
         Book book = new Book(name, "jane", "programming", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -187,6 +200,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenAuthorIsMoreThan100Characters() throws Exception {
         String author = RandomStringUtils.randomAlphabetic(101);
         Book book = new Book("introduction to java", author, "programming", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -199,6 +213,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenAuthorIsLessThan3Characters() throws Exception {
         String author = RandomStringUtils.randomAlphabetic(2);
         Book book = new Book("introduction to java", author, "programming", new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -211,6 +226,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenGenreIsMoreThan500Characters() throws Exception {
         String genre = RandomStringUtils.randomAlphabetic(501);
         Book book = new Book("introduction to java", "jane doe", genre, new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -223,6 +239,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenGenreIsLessThan3Characters() throws Exception {
         String genre = RandomStringUtils.randomAlphabetic(2);
         Book book = new Book("introduction to java", "jane doe", genre, new Date());
+        book.setId(UUID.randomUUID().toString());
 
         when(libraryService.addBook(any(Book.class))).thenReturn(book);
 
@@ -234,9 +251,10 @@ public class LibraryControllerTest {
     @Test
     void shouldReturnStatusBadRequestWhenBookToBeUpdatedIsNotPresent() throws Exception {
         Book book = new Book("introduction to java", "jane doe", "programming", new Date());
+        book.setId(UUID.randomUUID().toString());
         UUID id = UUID.randomUUID();
 
-        when(libraryService.getById(anyString())).thenReturn(null);
+        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -247,7 +265,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenBookToBeDeletedIsNotPresent() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(libraryService.getById(anyString())).thenReturn(null);
+        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
 
@@ -258,7 +276,7 @@ public class LibraryControllerTest {
     void shouldReturnStatusBadRequestForGetBookByIdWhenBookIsNotPresent() throws Exception {
 
         UUID id = UUID.randomUUID();
-        when(libraryService.getById(anyString())).thenReturn(null);
+        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
 
