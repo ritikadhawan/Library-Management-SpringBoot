@@ -72,7 +72,7 @@ class LibraryControllerTest {
         Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -85,12 +85,12 @@ class LibraryControllerTest {
         Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.getById(anyString())).thenReturn(Optional.of(book));
+        when(libraryService.getById(book.getId())).thenReturn(Optional.of(book));
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
         mockMvc.perform(builders).andExpect(status().isAccepted());
-        verify(libraryService, times(1)).updateBook(any(Book.class), anyString());
+        verify(libraryService, times(1)).updateBook(book, book.getId());
     }
 
     @Test
@@ -99,7 +99,7 @@ class LibraryControllerTest {
         Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.getById(anyString())).thenReturn(Optional.of(book));
+        when(libraryService.getById(book.getId())).thenReturn(Optional.of(book));
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id="
         + book.getId()).contentType(MediaType.APPLICATION_JSON);
@@ -113,7 +113,7 @@ class LibraryControllerTest {
         Book book = new Book("", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -125,7 +125,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -138,7 +138,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane doe", "programming", null);
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -151,7 +151,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane doe", "programming", "2024-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -163,7 +163,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane", "", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -176,7 +176,7 @@ class LibraryControllerTest {
         Book book = new Book(name, "jane", "programming", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -189,7 +189,7 @@ class LibraryControllerTest {
         Book book = new Book(name, "jane", "programming", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -202,7 +202,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", author, "programming", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -215,7 +215,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", author, "programming", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -228,7 +228,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane doe", genre, "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -241,7 +241,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane doe", genre, "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -254,7 +254,7 @@ class LibraryControllerTest {
         book.setId(UUID.randomUUID().toString());
         UUID id = UUID.randomUUID();
 
-        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
+        when(libraryService.getById(id.toString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.put("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
@@ -265,7 +265,7 @@ class LibraryControllerTest {
     void shouldReturnStatusBadRequestWhenBookToBeDeletedIsNotPresent() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
+        when(libraryService.getById(id.toString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.delete("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
 
@@ -276,7 +276,7 @@ class LibraryControllerTest {
     void shouldReturnStatusBadRequestForGetBookByIdWhenBookIsNotPresent() throws Exception {
 
         UUID id = UUID.randomUUID();
-        when(libraryService.getById(anyString())).thenReturn(Optional.empty());
+        when(libraryService.getById(id.toString())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.get("/api/v1/?id=" + id).contentType(MediaType.APPLICATION_JSON);
 
@@ -289,7 +289,7 @@ class LibraryControllerTest {
         Book book = new Book("introduction to java", "jane doe", "programming", "2024");
         book.setId(UUID.randomUUID().toString());
 
-        when(libraryService.addBook(any(Book.class))).thenReturn(book);
+        when(libraryService.addBook(book)).thenReturn(book);
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
