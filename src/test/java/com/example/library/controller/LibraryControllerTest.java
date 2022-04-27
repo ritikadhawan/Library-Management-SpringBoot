@@ -76,7 +76,7 @@ class LibraryControllerTest {
 
         MockHttpServletRequestBuilder builders = MockMvcRequestBuilders.post("/api/v1").contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsBytes(book));
 
-        mockMvc.perform(builders).andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.content().string(this.mapper.writeValueAsString(book)));
+        mockMvc.perform(builders).andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.content().string(book.getId()));
 
     }
 

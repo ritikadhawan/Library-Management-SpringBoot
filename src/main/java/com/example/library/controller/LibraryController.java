@@ -42,8 +42,9 @@ public class LibraryController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
-        return new ResponseEntity<Book>(libraryService.addBook(book), HttpStatus.CREATED);
+    public ResponseEntity<String> addBook(@Valid @RequestBody Book book) {
+        Book bookAdded = libraryService.addBook(book);
+        return new ResponseEntity<String>(bookAdded.getId(), HttpStatus.CREATED);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
