@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan({"com.example.library"})
 @EntityScan(basePackages = {"com.example.library.entity"} )
 @EnableJpaRepositories(basePackages = {"com.example.library.database"})
-//@Configuration
 @EnableTransactionManagement
 public class LibraryApplication {
 

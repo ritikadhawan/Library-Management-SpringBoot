@@ -4,26 +4,24 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 
-public class NotFutureDateValidator implements ConstraintValidator<NotFutureDate, String> {
+public class ValidDateFormatValidator implements ConstraintValidator<ValidDateFormat, String> {
     @Override
-    public void initialize(NotFutureDate constraintAnnotation) {
+    public void initialize(ValidDateFormat constraintAnnotation) {
     }
 
     @Override
     public boolean isValid(String date, ConstraintValidatorContext constraintValidatorContext) {
-        if(date == null || date.equals("")) {
+        if(date == null || date.isEmpty()) {
             return true;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(date.trim());
-            return LocalDate.parse(date).isBefore(LocalDate.now());
         } catch (ParseException pe) {
-            return true;
+            return false;
         }
-
+        return true;
     }
 }

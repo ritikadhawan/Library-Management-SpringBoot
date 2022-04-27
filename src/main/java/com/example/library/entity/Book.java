@@ -2,6 +2,7 @@ package com.example.library.entity;
 
 import com.example.library.validator.NotEmptyOrNull;
 import com.example.library.validator.NotFutureDate;
+import com.example.library.validator.ValidDateFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -24,7 +24,8 @@ public class Book {
 
     @NotEmptyOrNull(message = "published on is required")
     @NotFutureDate(message = "published on date should not be in the future")
-    private Date publishedOn;
+    @ValidDateFormat(message = "valid date format required")
+    private String publishedOn;
 
     @NotEmptyOrNull(message = "name is required")
     @Size(max = 50, min = 3, message = "name should be more than equal to {min} characters and less than equal to {max}")
@@ -42,7 +43,7 @@ public class Book {
 
     }
     @JsonCreator
-    public Book(String name, String author, String genre, Date publishedOn) {
+    public Book(String name, String author, String genre, String publishedOn) {
         this.name = name;
         this.author = author;
         this.genre = genre;
@@ -77,11 +78,11 @@ public class Book {
         this.genre = genre;
     }
 
-    public Date getPublishedOn() {
+    public String getPublishedOn() {
         return publishedOn;
     }
 
-    public void setPublishedOn(Date publishedOn) {
+    public void setPublishedOn(String publishedOn) {
         this.publishedOn = publishedOn;
     }
 

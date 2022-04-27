@@ -30,8 +30,8 @@ class LibraryServiceTest {
     @Test
     void shouldReturnAllBooks() {
         List<Book> bookList = new ArrayList<>();
-        bookList.add(new Book("learn spring boot", "john doe", "programming book", new Date()));
-        bookList.add(new Book("learn java", "jane doe", "programming book", new Date()));
+        bookList.add(new Book("learn spring boot", "john doe", "programming book", "2022-04-01"));
+        bookList.add(new Book("learn java", "jane doe", "programming book", "2022-04-01"));
 
         when(bookRepository.findAll()).thenReturn(bookList);
 
@@ -42,7 +42,7 @@ class LibraryServiceTest {
 
     @Test
     void shouldReturnBookById() {
-        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
@@ -52,7 +52,7 @@ class LibraryServiceTest {
 
     @Test
     void shouldAddBook() {
-        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
@@ -64,10 +64,10 @@ class LibraryServiceTest {
 
     @Test
     void shouldUpdateBookByIdIfAlreadyPresent() {
-        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
-        Book updatedBook = new Book("hello java", "jane doe", "programming book", new Date());
+        Book updatedBook = new Book("hello java", "jane doe", "programming book", "2022-04-01");
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
 
         libraryService.updateBook(updatedBook, book.getId());
@@ -77,7 +77,7 @@ class LibraryServiceTest {
 
     @Test
     void shouldDeleteBookByIdIfAlreadyPresent() {
-        Book book = new Book("learn spring boot", "john doe", "programming book", new Date());
+        Book book = new Book("learn spring boot", "john doe", "programming book", "2022-04-01");
         book.setId(UUID.randomUUID().toString());
 
         when(bookRepository.findById(book.getId())).thenReturn(null);
