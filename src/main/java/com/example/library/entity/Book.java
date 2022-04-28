@@ -2,6 +2,7 @@ package com.example.library.entity;
 
 import com.example.library.validator.NotEmptyOrNull;
 import com.example.library.validator.NotFutureDate;
+import com.example.library.validator.Size;
 import com.example.library.validator.ValidDateFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
